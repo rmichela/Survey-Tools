@@ -45,6 +45,9 @@ public class STPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new SetMarkerHandler(), this);
         getServer().getPluginManager().registerEvents(new ReportMarkerHandler(), this);
         getServer().getPluginManager().registerEvents(new MarkerBreakHandler(), this);
+
+        // Add help
+        getServer().getHelpMap().addTopic(new SurveyHelp());
     }
 
     @Override
