@@ -6,6 +6,6 @@
                             |___/
 
 Survey Tools gives you distance measurements between two points using Redstone Torches.
-1. Place a Redstone Torch on the block you would like to &nmeasure from.
+1. Place a Redstone Torch on the block you would like to measure from.
 2. Using a second Redstone Torch, shift-right-click the first Redstone Torchto set your survey marker.
 3. Shift-right-click another block to get a Survey Report with the distance to the first block.
