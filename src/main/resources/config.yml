@@ -1,8 +1,8 @@
-SurveyMarkSetMessage: "&6Setting your survey marker&r"
-SurveyMarkReplaceMessage: "&6Updating your survey marker&r"
-SurveyMarkCleared: "&6Clearing your survey marker&r"
-SurveyMarkDestroyed: "&6Your survey marker was destroyed&r"
-SurveyMarkNotSet: "&6You have no active survey marker&r"
+SurveyMarkSetMessage: "&6Setting your survey marker.&r"
+SurveyMarkReplaceMessage: "&6Updating your survey marker.&r"
+SurveyMarkCleared: "&6Clearing your survey marker.&r"
+SurveyMarkDestroyed: "&6Your survey marker was destroyed.&r"
+SurveyMarkNotSet: "&6You have no active survey marker.&r"
 
 SurveyReportHeader: "&6&nBlock Survey Report&r"
 North: "&cNorth"

@@ -38,7 +38,7 @@ public class MarkerBreakHandler implements Listener {
             ConfigurationSection config = STPlugin.instance.getConfig();
             SurveyMarkers markers = STPlugin.instance.markers;
 
-            event.getPlayer().sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkDestroyed")));
+            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkDestroyed")));
             markers.clearSurveyMark(event.getPlayer());
         }
     }

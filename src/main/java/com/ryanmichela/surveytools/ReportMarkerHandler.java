@@ -65,8 +65,8 @@ public class ReportMarkerHandler implements Listener {
 
         // Calculate survey relative to the block the survey marker is attached to
         Block lastSurveyMarkBlock = player.getWorld().getBlockAt(lastSurveyMarkLocation);
-        RedstoneTorch clickedBlockData = (RedstoneTorch)event.getClickedBlock().getState().getData();
-        BlockFace attachedFace = clickedBlockData.getAttachedFace();
+        RedstoneTorch lastSurveyMarkBlockData = (RedstoneTorch)lastSurveyMarkBlock.getState().getData();
+        BlockFace attachedFace = lastSurveyMarkBlockData.getAttachedFace();
         Location torchAttachedToLocation = lastSurveyMarkBlock.getRelative(attachedFace).getLocation();
 
         // All checks passed, print out the survey report

@@ -58,14 +58,14 @@ public class SetMarkerHandler implements Listener {
         Location clickedBlockLocation = event.getClickedBlock().getLocation();
 
         if (lastSurveyMark == null) {
-            player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkSetMessage")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkSetMessage")));
             markers.setSurveyMark(player, clickedBlockLocation);
         } else if (!lastSurveyMark.equals(clickedBlockLocation)) {
-            player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkReplaceMessage")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkReplaceMessage")));
             markers.clearSurveyMark(player);
             markers.setSurveyMark(player, clickedBlockLocation);
         } else if (lastSurveyMark.equals(clickedBlockLocation)) {
-            player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkCleared")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkCleared")));
             markers.clearSurveyMark(player);
         }
 
