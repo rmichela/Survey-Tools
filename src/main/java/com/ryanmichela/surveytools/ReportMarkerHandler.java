@@ -31,27 +31,36 @@ import org.bukkit.inventory.ItemStack;
 public class ReportMarkerHandler implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.isCancelled()) return;
+
         Player player = event.getPlayer();
+        ConfigurationSection config = STPlugin.instance.getConfig();
 
         // Verify that the player is holding a redstone torch
         ItemStack inHand = player.getItemInHand();
         if (inHand == null) return;
         if (inHand.getType() != Material.REDSTONE_TORCH_OFF && inHand.getType() != Material.REDSTONE_TORCH_ON) return;
 
-        // Verify that the player is left-clicking
-        if (player.isSneaking()) return;
-        if (event.getAction() != Action.LEFT_CLICK_BLOCK) return;
+        // Verify that the player is shift-right-clicking
+        if (!player.isSneaking()) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         // Verify that the player has an active survey marker
         Location lastSurveyMark = STPlugin.instance.markers.getSurveyMark(player);
-        if (lastSurveyMark == null) return;
+        if (lastSurveyMark == null) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkNotSet")));
+            event.setCancelled(true);
+            return;
+        }
 
-        // Verify that the player did not left-click the survey marker
+        // Verify that the player did not shift-left-click the survey marker
         Location clickedBlock = event.getClickedBlock().getLocation();
-        if (lastSurveyMark.equals(clickedBlock)) return;
+        if (lastSurveyMark.equals(clickedBlock)) {
+            event.setCancelled(true);
+            return;
+        }
 
         // All checks passed, print out the survey report
-        ConfigurationSection config = STPlugin.instance.getConfig();
 
         int dx = clickedBlock.getBlockX() - lastSurveyMark.getBlockX(); //pos=E, neg=W
         int dy = clickedBlock.getBlockY() - lastSurveyMark.getBlockY(); //pos=U, neg=D

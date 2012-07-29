@@ -21,6 +21,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,8 +30,10 @@ import org.bukkit.inventory.ItemStack;
 /**
  */
 public class SetMarkerHandler implements Listener {
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.isCancelled()) return;
+
         Player player = event.getPlayer();
 
         // Verify that the player is holding a redstone torch
