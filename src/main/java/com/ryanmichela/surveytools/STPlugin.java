@@ -15,13 +15,39 @@
 
 package com.ryanmichela.surveytools;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  */
-public class STPlugin extends JavaPlugin {
+public class STPlugin extends JavaPlugin implements Listener {
+    public static STPlugin instance;
+
+    public SurveyMarkers markers;
+
+    @Override
+    public void onLoad() {
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdir();
+            saveDefaultConfig();
+        }
+    }
+
     @Override
     public void onEnable() {
-        super.onEnable();    //To change body of overridden methods use File | Settings | File Templates.
+        instance = this;
+        markers = new SurveyMarkers(getDataFolder().getAbsolutePath() + "/markers.yml");
+
+        // Wire up events
+        getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new SetMarkerHandler(), this);
+        getServer().getPluginManager().registerEvents(new MarkerBreakHandler(), this);
+    }
+
+    @EventHandler
+    private void onWorldSave(WorldSaveEvent event) {
+        STPlugin.instance.markers.save();
     }
 }

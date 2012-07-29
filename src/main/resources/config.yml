@@ -1,0 +1,19 @@
+SurveyMarkSetMessage: Setting your survey marker
+SurveyMarkReplaceMessage: Updating your survey marker
+SurveyMarkCleared: Clearing your survey marker
+SurveyMarkDestroyed: Your survey marker was destroyed
+
+SurveyReportHeader: Block Survey Report
+North: North
+South: South
+East: East
+West: West
+Up: Up
+Down: Down
+DueNorth: Due North
+DueSouth: Due South
+DueEast: Due East
+DueWest: Due West
+DueUp: Directly Above
+DueDown: Directly Below
+ReportLine: %d blocks %s
