@@ -34,6 +34,8 @@ public class SurveyMarkers {
         file = new File(locationsPath);
         if (file.exists()) {
             locations = YamlConfiguration.loadConfiguration(file);
+        } else {
+            locations = new YamlConfiguration();
         }
     }
 

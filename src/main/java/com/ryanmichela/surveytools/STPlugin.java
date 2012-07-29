@@ -43,7 +43,13 @@ public class STPlugin extends JavaPlugin implements Listener {
         // Wire up events
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new SetMarkerHandler(), this);
+        getServer().getPluginManager().registerEvents(new ReportMarkerHandler(), this);
         getServer().getPluginManager().registerEvents(new MarkerBreakHandler(), this);
+    }
+
+    @Override
+    public void onDisable() {
+        onWorldSave(null);
     }
 
     @EventHandler

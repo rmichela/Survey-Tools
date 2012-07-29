@@ -16,4 +16,4 @@ DueEast: Due East
 DueWest: Due West
 DueUp: Directly Above
 DueDown: Directly Below
-ReportLine: %d blocks %s
+ReportLine: "%d blocks %s"

@@ -38,24 +38,24 @@ public class ReportMarkerHandler implements Listener {
         if (inHand == null) return;
         if (inHand.getType() != Material.REDSTONE_TORCH_OFF && inHand.getType() != Material.REDSTONE_TORCH_ON) return;
 
-        // Verify that the player is right-clicking
+        // Verify that the player is left-clicking
         if (player.isSneaking()) return;
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.LEFT_CLICK_BLOCK) return;
 
         // Verify that the player has an active survey marker
         Location lastSurveyMark = STPlugin.instance.markers.getSurveyMark(player);
         if (lastSurveyMark == null) return;
 
-        // Verify that the player did not right-click the survey marker
+        // Verify that the player did not left-click the survey marker
         Location clickedBlock = event.getClickedBlock().getLocation();
         if (lastSurveyMark.equals(clickedBlock)) return;
 
         // All checks passed, print out the survey report
         ConfigurationSection config = STPlugin.instance.getConfig();
 
-        double dx = clickedBlock.getBlockX() - lastSurveyMark.getBlockX(); //pos=E, neg=W
-        double dy = clickedBlock.getBlockY() - lastSurveyMark.getBlockY(); //pos=U, neg=D
-        double dz = lastSurveyMark.getBlockZ() - clickedBlock.getBlockZ(); //pos=N, neg=S
+        int dx = clickedBlock.getBlockX() - lastSurveyMark.getBlockX(); //pos=E, neg=W
+        int dy = clickedBlock.getBlockY() - lastSurveyMark.getBlockY(); //pos=U, neg=D
+        int dz = lastSurveyMark.getBlockZ() - clickedBlock.getBlockZ(); //pos=N, neg=S
 
         String ew = null;
         String ud = null;
@@ -72,7 +72,7 @@ public class ReportMarkerHandler implements Listener {
         if (dx == 0 && dy == 0) ns = "Due" + ns;
         if (dy == 0 && dz == 0) ew = "Due" + ew;
 
-        player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyReportHeader"))));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyReportHeader")));
         String reportLine = config.getString("ReportLine");
         if (ns != null) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(reportLine, Math.abs(dz), config.getString(ns))));
@@ -83,5 +83,7 @@ public class ReportMarkerHandler implements Listener {
         if (ud != null) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(reportLine, Math.abs(dy), config.getString(ud))));
         }
+
+        event.setCancelled(true);
     }
 }

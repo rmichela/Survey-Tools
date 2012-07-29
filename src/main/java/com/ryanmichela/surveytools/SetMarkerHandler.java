@@ -62,5 +62,7 @@ public class SetMarkerHandler implements Listener {
             player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkCleared")));
             markers.clearSurveyMark(player);
         }
+
+        event.setCancelled(true);
     }
 }
