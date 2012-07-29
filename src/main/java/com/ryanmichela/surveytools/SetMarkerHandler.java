@@ -18,6 +18,8 @@ package com.ryanmichela.surveytools;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +28,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.RedstoneTorch;
 
 /**
  */
@@ -52,16 +55,16 @@ public class SetMarkerHandler implements Listener {
         ConfigurationSection config = STPlugin.instance.getConfig();
         SurveyMarkers markers = STPlugin.instance.markers;
         Location lastSurveyMark = STPlugin.instance.markers.getSurveyMark(player);
-        Location clickedBlock = event.getClickedBlock().getLocation();
+        Location clickedBlockLocation = event.getClickedBlock().getLocation();
 
         if (lastSurveyMark == null) {
             player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkSetMessage")));
-            markers.setSurveyMark(player, clickedBlock);
-        } else if (!lastSurveyMark.equals(clickedBlock)) {
+            markers.setSurveyMark(player, clickedBlockLocation);
+        } else if (!lastSurveyMark.equals(clickedBlockLocation)) {
             player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkReplaceMessage")));
             markers.clearSurveyMark(player);
-            markers.setSurveyMark(player, clickedBlock);
-        } else if (lastSurveyMark.equals(clickedBlock)) {
+            markers.setSurveyMark(player, clickedBlockLocation);
+        } else if (lastSurveyMark.equals(clickedBlockLocation)) {
             player.sendMessage(config.getString(ChatColor.translateAlternateColorCodes('&', "SurveyMarkCleared")));
             markers.clearSurveyMark(player);
         }

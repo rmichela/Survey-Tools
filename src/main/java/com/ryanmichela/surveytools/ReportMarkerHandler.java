@@ -18,6 +18,8 @@ package com.ryanmichela.surveytools;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.RedstoneTorch;
 
 /**
  */
@@ -46,25 +49,30 @@ public class ReportMarkerHandler implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         // Verify that the player has an active survey marker
-        Location lastSurveyMark = STPlugin.instance.markers.getSurveyMark(player);
-        if (lastSurveyMark == null) {
+        Location lastSurveyMarkLocation = STPlugin.instance.markers.getSurveyMark(player);
+        if (lastSurveyMarkLocation == null) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("SurveyMarkNotSet")));
             event.setCancelled(true);
             return;
         }
 
         // Verify that the player did not shift-left-click the survey marker
-        Location clickedBlock = event.getClickedBlock().getLocation();
-        if (lastSurveyMark.equals(clickedBlock)) {
+        Location clickedBlockLocation = event.getClickedBlock().getLocation();
+        if (lastSurveyMarkLocation.equals(clickedBlockLocation)) {
             event.setCancelled(true);
             return;
         }
 
-        // All checks passed, print out the survey report
+        // Calculate survey relative to the block the survey marker is attached to
+        Block lastSurveyMarkBlock = player.getWorld().getBlockAt(lastSurveyMarkLocation);
+        RedstoneTorch clickedBlockData = (RedstoneTorch)event.getClickedBlock().getState().getData();
+        BlockFace attachedFace = clickedBlockData.getAttachedFace();
+        Location torchAttachedToLocation = lastSurveyMarkBlock.getRelative(attachedFace).getLocation();
 
-        int dx = clickedBlock.getBlockX() - lastSurveyMark.getBlockX(); //pos=E, neg=W
-        int dy = clickedBlock.getBlockY() - lastSurveyMark.getBlockY(); //pos=U, neg=D
-        int dz = lastSurveyMark.getBlockZ() - clickedBlock.getBlockZ(); //pos=N, neg=S
+        // All checks passed, print out the survey report
+        int dx = clickedBlockLocation.getBlockX() - torchAttachedToLocation.getBlockX(); //pos=E, neg=W
+        int dy = clickedBlockLocation.getBlockY() - torchAttachedToLocation.getBlockY(); //pos=U, neg=D
+        int dz = torchAttachedToLocation.getBlockZ() - clickedBlockLocation.getBlockZ(); //pos=N, neg=S
 
         String ew = null;
         String ud = null;
